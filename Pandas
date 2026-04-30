@@ -6,6 +6,15 @@ It has functions for analyzing, cleaning, exploring, and manipulating data.
 Read and write data structures and different formats : csv,JSON,ZIP etc.
 
 ------------------------------------------------------------------------------------------------------------------------
+# Importance of Pandas in Python
+
+Pandas allows us to analyze big data and make conclusions based on statistical theories.
+Pandas can clean messy data sets, and make them readable and relevant.
+Easy handling of missing data (represented as NaN) in floating point as well as non-floating point data
+Size mutability: columns can be inserted and deleted from DataFrame and higher dimensional objects
+Data set merging and joining. Flexible reshaping and pivoting of data sets Pr time-series functionality.
+
+----------------------------------------------------------------------------------------------------------------------------
 
 Pandas Data Structures
 
@@ -34,10 +43,236 @@ print(df)
 ---------------------------------------------------------------------------------
 Panel : A panel is a 3D container of data.
 --------------------------------------------------------------------------------------------------------------------------
-# Importance of Pandas in Python
 
-Pandas allows us to analyze big data and make conclusions based on statistical theories.
-Pandas can clean messy data sets, and make them readable and relevant.
-Easy handling of missing data (represented as NaN) in floating point as well as non-floating point data
-Size mutability: columns can be inserted and deleted from DataFrame and higher dimensional objects
-Data set merging and joining. Flexible reshaping and pivoting of data sets Pr time-series functionality.
+## 1️⃣ Automatic Arithmetic (Column‑wise)
+
+```python
+import pandas as pd
+
+df = pd.DataFrame({
+    "Salary": [30000, 40000, 50000]
+})
+
+df["Bonus"] = df["Salary"] * 0.10
+print(df)
+```
+
+✅ Bonus is calculated **automatically for every row**
+
+***
+
+## 2️⃣ Automatic Broadcasting (Single Value → All Rows)
+
+```python
+df["Tax_Rate"] = 5
+```
+
+✅ `5` is applied to **all rows automatically**
+
+***
+
+## 3️⃣ Automatic Conditional Operation
+
+```python
+df["High_Salary"] = df["Salary"] > 35000
+print(df)
+```
+
+✅ Condition checked for **entire column at once**
+
+***
+
+## 4️⃣ Automatic Aggregation
+
+```python
+print(df["Salary"].sum())
+print(df["Salary"].mean())
+```
+
+✅ No loop needed, pandas handles everything internally
+
+***
+
+## 5️⃣ Automatic Handling of Missing Values
+
+```python
+df = pd.DataFrame({
+    "Marks": [80, 90, None, 70]
+})
+
+print(df["Marks"].mean())
+```
+
+✅ `NaN` is **ignored automatically**
+
+***
+
+## 6️⃣ Automatic String Operations
+
+```python
+df = pd.DataFrame({
+    "Name": ["asad", "ali", "sara"]
+})
+
+df["Name"] = df["Name"].str.upper()
+print(df)
+```
+
+✅ String function applied to **entire column**
+
+***
+
+## 7️⃣ Automatic Date Operations
+
+```python
+df = pd.DataFrame({
+    "Date": pd.to_datetime(["2026-04-01", "2026-04-10"])
+})
+
+df["Day"] = df["Date"].dt.day
+print(df)
+```
+
+✅ Dates processed column‑wise
+
+***
+
+## 8️⃣ Automatic GroupBy Operation
+
+```python
+df = pd.DataFrame({
+    "Department": ["IT", "IT", "HR"],
+    "Salary": [50000, 60000, 45000]
+})
+
+print(df.groupby("Department")["Salary"].mean())
+```
+
+✅ Pandas performs grouping + calculation automatically
+
+***
+
+## 9️⃣ Automatic Column Alignment
+
+```python
+df1 = pd.DataFrame({"A": [10, 20]})
+df2 = pd.DataFrame({"A": [5, 5]})
+
+print(df1 + df2)
+```
+
+✅ Columns are aligned by **name**, not position
+
+***
+--------------------------------------------------------------------------------------------------------
+## ✅ INSERT in Python DataFrame
+
+### 1️⃣ Insert / Add a New Column
+
+#### Using direct assignment (most common)
+
+```python
+import pandas as pd
+
+df = pd.DataFrame({
+    "Name": ["Asad", "Ali"],
+    "Age": [25, 27]
+})
+
+df["City"] = ["Delhi", "Mumbai"]
+print(df)
+```
+
+***
+
+### 2️⃣ Insert Column at a Specific Position
+
+```python
+df.insert(1, "Gender", ["M", "M"])
+print(df)
+```
+
+**Syntax**
+
+```python
+df.insert(column_index, column_name, values)
+```
+
+***
+
+### 3️⃣ Insert a New Row (Using `loc`)
+
+```python
+df.loc[len(df)] = ["Sara", "F", 24, "Pune"]
+print(df)
+```
+
+***
+
+### 4️⃣ Insert Multiple Rows (Concat)
+
+```python
+new_rows = pd.DataFrame({
+    "Name": ["John", "Emma"],
+    "Gender": ["M", "F"],
+    "Age": [28, 26],
+    "City": ["NY", "LA"]
+})
+
+df = pd.concat([df, new_rows], ignore_index=True)
+```
+***
+
+## ❌ DELETE in Python DataFrame
+
+### 1️⃣ Delete a Column
+
+```python
+df.drop("City", axis=1, inplace=True)
+```
+***
+
+### 2️⃣ Delete Multiple Columns
+
+```python
+df.drop(["Gender", "Age"], axis=1, inplace=True)
+```
+
+***
+
+### 3️⃣ Delete a Row by Index
+
+```python
+df.drop(0, inplace=True)
+```
+
+***
+
+### 4️⃣ Delete Multiple Rows
+
+```python
+df.drop([1, 2], inplace=True)
+```
+
+***
+
+### 5️⃣ Delete Rows Based on Condition
+
+```python
+df = df[df["Age"] > 25]
+```
+
+***
+
+### 6️⃣ Delete Rows with Missing Values
+
+```python
+df.dropna(inplace=True)
+```
+
+***
+*   `insert()` → adds column at a specific position
+*   `drop()` → deletes rows or columns
+*   `axis=0` → rows
+*   `axis=1` → columns
+*   `inplace=True` → modifies original DataFrame
