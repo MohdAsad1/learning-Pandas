@@ -276,3 +276,144 @@ df.dropna(inplace=True)
 *   `axis=0` → rows
 *   `axis=1` → columns
 *   `inplace=True` → modifies original DataFrame
+==========================================================================================================
+# Create CSV file using Pandas  - > to_csv()
+
+import pandas as pd
+
+# Create DataFrame
+df = pd.DataFrame({
+    "Name": ["Asad", "Ali", "Sara"],
+    "Age": [25, 27, 24],
+    "City": ["Delhi", "Mumbai", "Pune"]
+})
+
+# Create CSV file
+df.to_csv("data.csv", index=False)
+=============================================================================================================
+## ✅ Read CSV File in Pandas - > `read_csv()`
+
+### Basic Syntax
+
+```python
+import pandas as pd
+
+df = pd.read_csv("data.csv")
+print(df)
+```
+
+```python
+df = pd.read_csv("data.csv", sep=",", header=0, index_col=False)
+```
+
+| Parameter   | Purpose                         |
+| ----------- | ------------------------------- |
+| `sep`       | Column separator (`,` `;` `\t`) |
+| `header`    | Row number for column names     |
+| `index_col` | Column to use as index          |
+| `usecols`   | Read selected columns           |
+| `nrows`     | Read limited rows               |
+| `skiprows`  | Skip rows                       |
+| `dtype`     | Specify data types              |
+
+### Example
+
+```python
+df = pd.read_csv("data.csv", usecols=["Name", "Age"], nrows=5)
+```
+
+***
+
+## ✅ Inbuilt DataFrame Functionalities (After Reading CSV)
+
+### 1️⃣ View Data
+
+```python
+df.head()
+df.tail()
+df.shape
+df.columns
+df.info()
+df.describe()
+```
+
+***
+
+### 2️⃣ Column & Row Selection
+
+```python
+df["Age"]
+df.loc[0]
+df.iloc[0]
+```
+
+***
+
+### 3️⃣ Filtering Data
+
+```python
+df[df["Age"] > 25]
+```
+
+***
+
+### 4️⃣ Sorting
+
+```python
+df.sort_values("Age")
+```
+
+***
+
+### 5️⃣ Handle Missing Values
+
+```python
+df.isnull()
+df.dropna()
+df.fillna(0)
+```
+
+***
+
+### 6️⃣ Aggregate Functions
+
+```python
+df["Age"].sum()
+df["Age"].mean()
+df["Age"].max()
+df["Age"].min()
+```
+
+***
+
+### 7️⃣ Grouping Data
+
+```python
+df.groupby("City")["Age"].mean()
+```
+
+***
+
+### 8️⃣ Add / Update Columns
+
+```python
+df["Status"] = "Active"
+df["Age"] = df["Age"] + 1
+```
+
+***
+
+### 9️⃣ Delete Rows / Columns
+
+```python
+df.drop("City", axis=1)
+df.drop(0)
+```
+
+***
+
+### 🔟 Export Updated Data
+
+```python
+df.to_csv("updated_data.csv", index=False)
+```
