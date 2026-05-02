@@ -449,6 +449,17 @@ df.loc[0:2, ["Name", "Age"]]
 ```python
 df.loc[len(df)] = ["Asad", 25, "IT"]
 ```
+---------------------------------------------------------------------------------------------------------
+What is iloc?
+
+iloc is a position‑based indexer used to select and modify DataFrame data using integer positions (row number & column number).
+
+✅ Uses only integers
+✅ Zero‑based indexing
+✅ Works like Python list indexing
+df.iloc[0:3]
+
+------------------------------------------------------------------------------------------------------------
 
 #### Add multiple rows
 
