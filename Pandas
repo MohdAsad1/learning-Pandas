@@ -277,7 +277,7 @@ df.dropna(inplace=True)
 *   `axis=1` → columns
 *   `inplace=True` → modifies original DataFrame
 ==========================================================================================================
-# Create CSV file using Pandas  - > to_csv()
+## ✅ Create CSV file using Pandas  - > to_csv()
 
 import pandas as pd
 
@@ -417,3 +417,156 @@ df.drop(0)
 ```python
 df.to_csv("updated_data.csv", index=False)
 ```
+----------------------------------------------------------------------------------------------------
+### 🔹 1. Add / Insert Data
+
+#### Add a new column
+
+```python
+df["Salary"] = [30000, 40000, 50000]
+```
+
+#### Insert column at specific position
+
+```python
+df.insert(1, "Dept", ["IT", "HR", "IT"])
+```
+------------------------------------------------------------------------------------------------------------------
+What is loc?
+
+loc is a label‑based indexer used to select, update, insert, and modify data in a DataFrame using row labels and column names.
+
+✅ Works with row labels + column names
+✅ Supports conditions (filters)
+✅ Can modify data directly
+df.loc[row_label, column_label]
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Select Rows + Specific Columns
+df.loc[0:2, ["Name", "Age"]]
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+#### Add a new row
+
+```python
+df.loc[len(df)] = ["Asad", 25, "IT"]
+```
+
+#### Add multiple rows
+
+```python
+df = pd.concat([df, new_df], ignore_index=True)
+```
+
+***
+
+### 🔹 2. Update / Modify Values
+
+#### Modify entire column
+
+```python
+df["Age"] = df["Age"] + 1
+```
+
+#### Modify specific cell
+
+```python
+df.loc[0, "Age"] = 30
+```
+
+#### Update using condition
+
+```python
+df.loc[df["Age"] > 25, "Status"] = "Senior"
+```
+
+#### Replace values
+
+```python
+df.replace("Delhi", "New Delhi", inplace=True)
+```
+
+***
+
+### 🔹 3. Delete / Remove Data
+
+#### Delete column
+
+```python
+df.drop("City", axis=1, inplace=True)
+```
+
+#### Delete multiple columns
+
+```python
+df.drop(["City", "Dept"], axis=1, inplace=True)
+```
+
+#### Delete row by index
+
+```python
+df.drop(0, inplace=True)
+```
+
+#### Delete rows by condition
+
+```python
+df = df[df["Age"] >= 25]
+```
+
+***
+
+### 🔹 4. Handle Missing Data
+
+```python
+df.dropna(inplace=True)
+df.fillna(0, inplace=True)
+```
+
+***
+
+### 🔹 5. Rename Columns / Index
+
+```python
+df.rename(columns={"Age": "Employee_Age"}, inplace=True)
+df.rename(index={0: 100}, inplace=True)
+```
+
+***
+
+### 🔹 6. Change Data Types
+
+```python
+df["Age"] = df["Age"].astype(int)
+```
+
+***
+
+### 🔹 7. Apply Functions (Transformation)
+
+```python
+df["Salary"] = df["Salary"].apply(lambda x: x * 1.1)
+```
+
+***
+
+### 🔹 8. Sort & Reorder
+
+```python
+df.sort_values("Age", inplace=True)
+df.sort_index(inplace=True)
+```
+
+***
+
+## 🧠 Quick Interview Summary
+
+| Operation    | Functions                       |
+| ------------ | ------------------------------- |
+| Add          | `insert()`, `loc[]`, assignment |
+| Update       | `loc[]`, `replace()`, `apply()` |
+| Delete       | `drop()`                        |
+| Missing data | `fillna()`, `dropna()`          |
+| Rename       | `rename()`                      |
+| Type change  | `astype()`                      |
+| Reshape      | `sort_values()`                 |
+
+***
