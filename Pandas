@@ -581,3 +581,160 @@ df.sort_index(inplace=True)
 | Reshape      | `sort_values()`                 |
 
 ***
+------------------------------------------------------------------------------------------------------------------
+
+# ✅ `dropna()` in Pandas
+
+## What is `dropna()`?
+
+> **`dropna()` is used to remove missing values (`NaN`, `None`) from a DataFrame or Series.**
+
+✅ Can remove **rows or columns**  
+✅ Highly configurable  
+✅ Commonly used in **data cleaning**
+
+***
+## 1️⃣ Drop Rows with Missing Values (Default)
+
+```python
+df.dropna()
+```
+
+✅ Removes rows having **any NaN**
+
+***
+
+## 2️⃣ Drop Columns with Missing Values
+
+```python
+df.dropna(axis=1)
+```
+
+✅ Deletes columns containing **any NaN**
+
+***
+
+## 3️⃣ Drop Rows Only If ALL Values Are NaN
+
+```python
+df.dropna(how="all")
+```
+
+✅ Keeps rows where **at least one value exists**
+
+***
+
+## 4️⃣ Drop Rows Only If ANY Value Is NaN
+
+```python
+df.dropna(how="any")
+```
+
+✅ Same as default behavior
+
+***
+
+## 5️⃣ Drop Rows Based on Specific Columns
+
+```python
+df.dropna(subset=["Age", "Salary"])
+```
+
+✅ Removes rows only if **Age or Salary** is missing
+
+***
+
+## 6️⃣ Minimum Non‑NA Values Required (`thresh`)
+
+```python
+df.dropna(thresh=2)
+```
+
+✅ Keeps rows with **at least 2 non‑NaN values**
+
+***
+
+## 7️⃣ Modify Original DataFrame (`inplace`)
+
+```python
+df.dropna(inplace=True)
+```
+
+✅ Changes original DataFrame  
+❌ Does not return anything
+
+***
+
+## 8️⃣ Drop NaN in a Single Column (Series)
+
+```python
+df["Age"].dropna()
+```
+
+✅ Removes missing values from one column
+
+***
+
+## ✅ Combined Example
+
+```python
+df.dropna(
+    axis=0,
+    how="any",
+    subset=["Age"],
+    inplace=True
+)
+```
+
+🧠 Meaning:
+
+*   Drop **rows**
+*   If **Age** is missing
+*   Modify original DataFrame
+
+***
+
+## 🧠 Interview‑Ready Summary Table
+
+| Parameter   | Purpose                |
+| ----------- | ---------------------- |
+| `axis=0`    | Drop rows              |
+| `axis=1`    | Drop columns           |
+| `how='any'` | Drop if any NaN        |
+| `how='all'` | Drop if all NaN        |
+| `subset`    | Check specific columns |
+| `thresh`    | Min non‑NaN values     |
+| `inplace`   | Modify original DF     |
+
+***
+----------------------------------------------------------------------------------------------------------------------
+What is fillna()?
+
+fillna() is used to replace missing values (NaN, None) in a DataFrame or Series with a specified value or method.
+
+✅ Used for data cleaning
+✅ Prevents data loss (unlike dropna())
+✅ Very common in real‑world datasets
+
+df.fillna(value)
+
+ Forward Fill (ffill)
+Uses the previous value
+df.fillna(method="ffill")
+
+Backward Fill (bfill)
+Uses the next value
+df.fillna(method="bfill")
+
+Fill with Limit (Number of Replacements)
+df.fillna(method="ffill", limit=1)
+
+| Method           | Use Case                      |
+| ---------------- | ----------------------------- |
+| `fillna(0)`      | Replace missing with constant |
+| `fillna(mean)`   | Numeric data                  |
+| `method="ffill"` | Time‑series data              |
+| `method="bfill"` | Next known value              |
+| `limit`          | Restricted filling            |
+| `inplace=True`   | Modify original DF            |
+
