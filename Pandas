@@ -737,4 +737,163 @@ df.fillna(method="ffill", limit=1)
 | `method="bfill"` | Next known value              |
 | `limit`          | Restricted filling            |
 | `inplace=True`   | Modify original DF            |
+----------------------------------------------------------------------------------------------------------
+# 🔹 1. `replace()` in pandas
 
+### ✅ Purpose:
+
+Used to **replace specific values** in a DataFrame or Series.
+
+***
+
+### ✅ Syntax:
+
+```python
+df.replace(to_replace, value)
+```
+
+***
+
+### ✅ Examples:
+
+### ▶️ Example 1: Replace single value
+
+```python
+import pandas as pd
+
+df = pd.DataFrame({'A': [1, 2, 3, 2, 5]})
+
+df.replace(2, 99, inplace=True)
+print(df)
+```
+
+✅ Output:
+
+        A
+    0   1
+    1  99
+    2   3
+    3  99
+    4   5
+
+***
+
+### ▶️ Example 2: Replace multiple values
+
+```python
+df = pd.DataFrame({'A': [1, 2, 3, 4]})
+
+df.replace([2, 4], [20, 40], inplace=True)
+```
+
+***
+
+### ▶️ Example 3: Replace using dictionary
+
+```python
+df = pd.DataFrame({'A': [1, 2, 3]})
+
+df.replace({1: 100, 3: 300}, inplace=True)
+```
+
+***
+
+### ▶️ Example 4: Replace strings
+
+```python
+df = pd.DataFrame({'Name': ['A', 'B', 'A']})
+
+df.replace('A', 'Z', inplace=True)
+```
+
+***
+
+# 🔹 2. `interpolate()` in pandas
+
+### ✅ Purpose:
+
+Used to **fill missing values (`NaN`)** using mathematical methods (like linear interpolation).
+
+***
+
+### ✅ Syntax:
+
+```python
+df.interpolate(method='linear')
+```
+
+***
+
+### ✅ Common Methods:
+
+*   `"linear"` ✅ (default)
+*   `"polynomial"`
+*   `"time"`
+*   `"index"`
+
+***
+
+### ✅ Examples:
+
+### ▶️ Example 1: Linear interpolation
+
+```python
+import numpy as np
+
+df = pd.DataFrame({'A': [1, np.nan, 3, np.nan, 5]})
+
+df['A'] = df['A'].interpolate()
+print(df)
+```
+
+✅ Output:
+
+         A
+    0  1.0
+    1  2.0
+    2  3.0
+    3  4.0
+    4  5.0
+
+***
+
+### ▶️ Example 2: Forward interpolation (limit direction)
+
+```python
+df['A'] = df['A'].interpolate(method='linear', limit_direction='forward')
+```
+
+***
+
+### ▶️ Example 3: Interpolate using index
+
+```python
+df = pd.DataFrame({'A': [1, None, 9]}, index=[0, 5, 10])
+
+df['A'] = df['A'].interpolate(method='index')
+```
+
+***
+
+# 🔹 Key Difference (Important for exams)
+
+| Feature  | replace()                         | interpolate()             |
+| -------- | --------------------------------- | ------------------------- |
+| Purpose  | Replace specific values           | Fill missing values       |
+| Works on | Any value (NaN, strings, numbers) | Mostly numeric NaN values |
+| Logic    | Direct substitution               | Mathematical estimation   |
+| Example  | 2 → 100                           | NaN → 2.5                 |
+
+***
+
+# 🔹 When to Use What
+
+✔ Use `replace()` when:
+
+*   You know exact values to change
+*   Example: wrong data, labels, codes
+
+✔ Use `interpolate()` when:
+
+*   You have missing numeric data
+*   You want smooth/continuous estimation
