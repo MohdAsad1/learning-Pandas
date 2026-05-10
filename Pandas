@@ -897,3 +897,295 @@ df['A'] = df['A'].interpolate(method='index')
 
 *   You have missing numeric data
 *   You want smooth/continuous estimation
+=========================================================================================================================
+
+# ✅ 1. `merge()` (SQL-style join)
+
+Used when you want to combine DataFrames based on **common columns (keys)**.
+
+### 🔹 Syntax:
+
+```python
+pd.merge(df1, df2, on='column_name', how='type')
+```
+
+### 🔹 Types of joins:
+
+*   `inner` (default) → common data only
+*   `left` → all from left + matching from right
+*   `right` → all from right + matching from left
+*   `outer` → everything from both
+
+***
+
+### ✅ Example:
+
+```python
+import pandas as pd
+
+df1 = pd.DataFrame({
+    'id': [1, 2, 3],
+    'name': ['Asad', 'Ali', 'John']
+})
+
+df2 = pd.DataFrame({
+    'id': [1, 2, 4],
+    'city': ['Delhi', 'Mumbai', 'Pune']
+})
+
+result = pd.merge(df1, df2, on='id', how='inner')
+print(result)
+```
+
+### 🔹 Output:
+
+       id   name    city
+    0   1   Asad   Delhi
+    1   2    Ali  Mumbai
+
+***
+
+# ✅ 2. `concat()` (stacking data)
+
+Used to **append/stack DataFrames** either:
+
+*   **vertically (rows)** → axis=0 (default)
+*   **horizontally (columns)** → axis=1
+
+***
+
+### 🔹 Syntax:
+
+```python
+pd.concat([df1, df2], axis=0)
+```
+
+***
+
+### ✅ Example 1: Row-wise concat
+
+```python
+df1 = pd.DataFrame({'A': [1, 2]})
+df2 = pd.DataFrame({'A': [3, 4]})
+
+result = pd.concat([df1, df2])
+print(result)
+```
+
+### 🔹 Output:
+
+       A
+    0  1
+    1  2
+    0  3
+    1  4
+
+👉 Reset index:
+
+```python
+pd.concat([df1, df2], ignore_index=True)
+```
+
+***
+
+### ✅ Example 2: Column-wise concat
+
+```python
+df1 = pd.DataFrame({'A': [1, 2]})
+df2 = pd.DataFrame({'B': [3, 4]})
+
+result = pd.concat([df1, df2], axis=1)
+print(result)
+```
+
+### 🔹 Output:
+
+       A  B
+    0  1  3
+    1  2  4
+
+***
+
+# 🔥 Key Difference (Interview Point)
+
+| Feature     | merge()               | concat()                 |
+| ----------- | --------------------- | ------------------------ |
+| Purpose     | Join on common column | Stack/append data        |
+| Like        | SQL JOIN              | Append / Stack           |
+| Axis        | Column-based          | Row or column (axis=0/1) |
+| Keys needed | ✅ Yes                 | ❌ No                     |
+
+***
+
+# ✅ When to use what?
+
+*   Use **merge()** → when you have **common column (id, key)**
+*   Use **concat()** → when you want to **combine datasets directly**
+
+***
+
+# 💡 Quick Example (Real scenario)
+
+✅ Merge:
+
+```python
+# Joining employee info with salary
+pd.merge(emp_df, salary_df, on='emp_id')
+```
+
+✅ Concat:
+
+```python
+# Combining monthly data
+pd.concat([jan_df, feb_df, mar_df])
+```
+----------------------------------------------------------------------------------
+# ✅ 1. `join()` (Index-based join)
+
+👉 Used to combine DataFrames using **index or key column**
+
+### 🔹 Syntax:
+
+```python
+df1.join(df2, on='column', how='type')
+```
+
+### 🔹 Join types:
+
+*   `left` (default)
+*   `right`
+*   `inner`
+*   `outer`
+
+***
+
+### ✅ Example:
+
+```python
+import pandas as pd
+
+df1 = pd.DataFrame({
+    'A': [1, 2, 3]
+}, index=[0, 1, 2])
+
+df2 = pd.DataFrame({
+    'B': [4, 5, 6]
+}, index=[0, 1, 2])
+
+result = df1.join(df2)
+print(result)
+```
+
+### 🔹 Output:
+
+       A  B
+    0  1  4
+    1  2  5
+    2  3  6
+
+***
+
+### ✅ Join using column:
+
+```python
+df1 = pd.DataFrame({
+    'id': [1, 2, 3],
+    'A': ['a', 'b', 'c']
+})
+
+df2 = pd.DataFrame({
+    'id': [1, 2, 3],
+    'B': ['x', 'y', 'z']
+}).set_index('id')
+
+result = df1.join(df2, on='id')
+print(result)
+```
+
+***
+
+# ✅ 2. `append()` (Row adding)
+
+👉 Used to **add rows of one DataFrame to another**
+
+***
+
+### 🔹 Syntax:
+
+```python
+df1.append(df2)
+```
+
+***
+
+### ✅ Example:
+
+```python
+df1 = pd.DataFrame({'A': [1, 2]})
+df2 = pd.DataFrame({'A': [3, 4]})
+
+result = df1.append(df2)
+print(result)
+```
+
+### 🔹 Output:
+
+       A
+    0  1
+    1  2
+    0  3
+    1  4
+
+👉 Reset index:
+
+```python
+df1.append(df2, ignore_index=True)
+```
+
+***
+
+# ⚠️ Important (Very Important for Interview)
+
+👉 **append() is deprecated** (removed in new pandas versions)
+
+✅ Use this instead:
+
+```python
+pd.concat([df1, df2], ignore_index=True)
+```
+
+***
+
+# 🔥 Key Difference
+
+| Feature     | join()                     | append()             |
+| ----------- | -------------------------- | -------------------- |
+| Purpose     | Combine columns (relation) | Add rows             |
+| Based on    | Index / key                | No key needed        |
+| Replacement | merge() alternative        | concat() recommended |
+
+***
+
+# ✅ Quick Summary (Exam point)
+
+*   ✅ **join()** → column-wise combine using index
+*   ✅ **append()** → row-wise add (use `concat()` now)
+
+***
+
+# 💡 Real-world usage
+
+✔ Join:
+
+```python
+df_users.join(df_orders, on='user_id')
+```
+
+✔ Append:
+
+```python
+pd.concat([jan_data, feb_data])
+```
+
+***
+======================================================================================================
